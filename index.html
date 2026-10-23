@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KEB Deutschland – Konzeptlandkarte Professionalisierung</title>
+<style>
+:root{
+  --bg:#f7f8f8; --panel:#ffffff; --text:#22282b; --muted:#687176;
+  --line:#cfd5d8; --strong:#66747b; --accent:#b65f55; --accent-soft:#f6e9e7;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
+main{max-width:1500px;margin:0 auto;padding:38px 30px 60px}
+header{margin-bottom:28px}
+h1{font-size:28px;font-weight:600;margin:0 0 8px}
+header p{margin:0;color:var(--muted)}header .context{font-size:17px;font-weight:500;margin-bottom:5px}header .instruction{font-size:13px}
+.top-tools{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-top:14px}.legend{display:flex;gap:20px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.legend span{display:flex;align-items:center;gap:7px}
+.dot{width:10px;height:10px;border-radius:50%;border:1px solid var(--strong);background:#fff}
+.dot.active{border-color:var(--accent);background:var(--accent)}
+.map{position:relative;display:grid;grid-template-columns:repeat(4,minmax(220px,1fr));gap:16px;align-items:start}
+.connections{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:5;overflow:visible}
+.group{position:relative;z-index:2;background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--strong);padding:18px 17px 19px;min-width:0}
+.group.plus{border-top-color:var(--accent)}
+.group.basis{grid-column:1/-1}
+.group h2{font-size:18px;font-weight:600;margin:0 0 5px}
+.group .description{font-size:13px;color:var(--muted);line-height:1.4;margin-bottom:15px}
+.items{display:flex;flex-wrap:wrap;gap:8px}
+.item{appearance:none;border:1px solid #bfc7ca;background:#fff;color:var(--text);font:inherit;font-size:14px;line-height:1.25;padding:9px 11px;min-height:39px;text-align:left;cursor:pointer;border-radius:2px;position:relative;z-index:8}
+.item:hover,.item:focus-visible{border-color:var(--accent);outline:2px solid transparent}
+.item.selected{border-color:var(--accent);background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--accent)}
+.item.related{border-color:#5f6c72;background:#f4f6f6}
+.item.dimmed{opacity:.18}
+.info{margin-top:18px;border-top:1px solid var(--line);padding-top:14px;min-height:48px;color:var(--muted);font-size:14px;line-height:1.45}
+.info strong{color:var(--text)}
+.reset{border:1px solid #bfc7ca;background:#fff;color:var(--text);padding:8px 11px;font:inherit;font-size:13px;cursor:pointer;border-radius:2px}.reset:hover,.reset:focus-visible{border-color:var(--accent);outline:none}.top-reset{margin-left:auto}
+path.connection{fill:none;stroke:var(--accent);stroke-width:1.6;stroke-dasharray:5 5;opacity:.9}
+@media(max-width:1100px){.map{grid-template-columns:repeat(2,minmax(250px,1fr))}}
+@media(max-width:650px){
+ main{padding:24px 16px 40px}.map{grid-template-columns:1fr}.group.basis{grid-column:auto}
+ .connections{display:none}h1{font-size:23px}
+}
+
+.section-kicker{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.08em;margin-bottom:7px}
+.basis-kicker{color:var(--strong)}
+.plus-kicker{color:var(--accent)}
+.plus-header{grid-column:1/-1;position:relative;z-index:2;display:flex;align-items:flex-start;gap:18px;background:#fff;border:1px solid var(--line);border-left:5px solid var(--accent);padding:17px 20px 16px;margin-top:8px}
+.plus-header h2{font-size:20px;font-weight:600;margin:0 0 5px}
+.plus-header p{margin:0;color:var(--muted);font-size:14px}
+
+
+.basis-header{grid-column:1/-1;position:relative;z-index:2;display:flex;align-items:flex-start;gap:18px;background:#fff;border:1px solid var(--line);border-left:5px solid var(--strong);padding:17px 20px 16px}
+.basis-header h2{font-size:20px;font-weight:600;margin:0 0 5px}
+.basis-header p{margin:0;color:var(--muted);font-size:14px}
+.basis-content{border-top:1px solid var(--line);padding-top:18px}
+
+</style>
+</head>
+<body>
+<main>
+<header>
+  <h1>Professionalisierung · Basis & Plus</h1>
+  <p class="context">Konzeptlandkarte für die KEB Deutschland · Basis und Plus als verbundenes Professionalisierungssystem</p>
+  <p class="instruction">Einen Begriff auswählen, um seine inhaltlichen Querverbindungen sichtbar zu machen.</p>
+  <div class="top-tools">
+      <div class="legend"><span><i class="dot"></i> Themen und Angebote</span><span><i class="dot active"></i> Querverbindungen</span></div>
+      <button class="reset top-reset" id="reset" type="button">Auswahl zurücksetzen</button>
+    </div>
+</header>
+
+<div class="map" id="map">
+<svg class="connections" id="connections" aria-hidden="true"></svg>
+
+<section class="basis-header">
+  <div class="section-kicker basis-kicker">BASIS</div>
+  <div>
+    <h2>Berufseinführung</h2>
+    <p>Gemeinsames Fundament für neue Mitarbeitende</p>
+  </div>
+</section>
+
+<section class="group basis basis-content">
+<div class="items">
+<button class="item" data-id="bt">Erwachsenenbildung in katholischer Trägerschaft</button>
+<button class="item" data-id="bm">Bildungsmanagement</button>
+<button class="item" data-id="bb">Betriebswirtschaftliche Grundlagen</button>
+<button class="item" data-id="bf">Führung gestalten</button>
+<button class="item" data-id="bd">Demokratiebildung & gesellschaftliche Verantwortung</button>
+<button class="item" data-id="bl">Lernen Erwachsener</button>
+<button class="item" data-id="ment">Mentoring</button>
+</div>
+</section>
+
+<section class="plus-header">
+  <div class="section-kicker plus-kicker">PLUS</div>
+  <div>
+    <h2>Weiterführende Professionalisierung</h2>
+    <p>Für neue und erfahrene Mitarbeitende · Einzelangebote und Qualifizierungen</p>
+  </div>
+</section>
+
+<section class="group plus"><h2>Methoden & Didaktik</h2><div class="description">Gestaltung von Lernprozessen und Bildungsformaten.</div><div class="items">
+<button class="item" data-id="kreativ">Kreative Methoden</button><button class="item" data-id="games">Games in der Erwachsenenbildung</button><button class="item" data-id="design">Design Thinking</button><button class="item" data-id="polit">Innovative politische Bildungsformate</button><button class="item" data-id="religformate">Neue Formate religiöser Bildung</button><button class="item" data-id="hybrid">Digitale & hybride Lernformate</button>
+</div></section>
+
+<section class="group plus"><h2>Digitalität & KI</h2><div class="description">Kompetenzen für digital geprägte Bildungsarbeit.</div><div class="items">
+<button class="item" data-id="challenge">KI-Challenge Bayern</button><button class="item" data-id="naviki">navi_KI RLP</button><button class="item" data-id="aiact">KI-Kompetenz / AI Act</button><button class="item" data-id="alignment">Alignment</button><button class="item" data-id="kiethik">Ethik im Umgang mit KI</button><button class="item" data-id="kiarbeit">KI in Bildungsplanung & Verwaltung</button>
+</div></section>
+
+<section class="group plus"><h2>Demokratie & Gesellschaft</h2><div class="description">Gesellschaftliche Verantwortung und politische Bildung.</div><div class="items">
+<button class="item" data-id="dem">Demokratiebildung</button><button class="item" data-id="kont">Kontroversität</button><button class="item" data-id="dialog">Dialog & Haltung</button><button class="item" data-id="polar">Polarisierung & Konflikt</button><button class="item" data-id="bne">BNE / Nachhaltigkeit</button>
+</div></section>
+
+<section class="group plus"><h2>Management & Organisation</h2><div class="description">Organisationen, Projekte und Prozesse professionell gestalten.</div><div class="items">
+<button class="item" data-id="projekt">Projektplanung</button><button class="item" data-id="oe">Organisationsentwicklung</button><button class="item" data-id="prozess">Prozessgestaltung</button><button class="item" data-id="soz">Soziokratie</button><button class="item" data-id="wirkung">Wirkungsorientierung</button><button class="item" data-id="marketing">Bildungsmarketing</button>
+</div></section>
+
+<section class="group plus"><h2>Recht & Rahmenbedingungen</h2><div class="description">Rechtliche und institutionelle Bedingungen der Erwachsenenbildung.</div><div class="items">
+<button class="item" data-id="legal">Legal Insights</button><button class="item" data-id="vereinsrecht">Vereinsrecht</button><button class="item" data-id="wg">Weiterbildungsgesetze</button><button class="item" data-id="ust">Umsatzsteuer</button><button class="item" data-id="aus">Rechtskonforme Ausschreibungen</button>
+</div></section>
+
+<section class="group plus"><h2>Finanzielle Bildung & wirtschaftliches Handeln</h2><div class="description">Finanzielle Bildung als Handlungsfeld und wirtschaftliche Kompetenz für Einrichtungen.</div><div class="items">
+<button class="item" data-id="finbild">Finanzielle Bildung</button><button class="item" data-id="bwl">BWL</button><button class="item" data-id="modelle">Geschäftsmodelle</button><button class="item" data-id="cases">Business Cases</button><button class="item" data-id="fin">Finanzierung</button>
+</div></section>
+
+<section class="group plus"><h2>Führung & Personal</h2><div class="description">Führungshandeln und Personalentwicklung.</div><div class="items">
+<button class="item" data-id="fuehr">Führung gestalten</button><button class="item" data-id="pers">Personalverantwortung</button><button class="item" data-id="selbst">Selbstmanagement</button><button class="item" data-id="pe">Personalentwicklung</button>
+</div></section>
+
+<section class="group plus"><h2>Zielgruppen & Handlungsfelder</h2><div class="description">Spezifische Zugänge und Arbeitsfelder der Erwachsenenbildung.</div><div class="items">
+<button class="item" data-id="gera">Geragogik</button><button class="item" data-id="fam">Familienbildung</button><button class="item" data-id="inkl">Inklusion</button><button class="item" data-id="grund">Grundbildung / Alphabetisierung</button><button class="item" data-id="kurs">Kursleitendenqualifizierung</button>
+</div></section>
+</div>
+
+<div class="info" id="info">Alle Bereiche sind sichtbar. Klicke auf einen Begriff oder ein Angebot.</div>
+</main>
+
+<script>
+const map=document.getElementById('map'), svg=document.getElementById('connections'),
+info=document.getElementById('info'), buttons=[...document.querySelectorAll('.item')];
+
+const links={
+bt:['dem','bne','religformate'],
+bm:['wirkung','projekt','legal','wg','marketing','aus'],
+bb:['bwl','modelle','cases','fin','ust'],
+bf:['fuehr','pers','selbst','pe'],
+bd:['dem','kont','dialog','polar','bne','polit'],
+bl:['kreativ','games','design','polit','religformate','hybrid','gera','inkl','grund','kurs'],
+ment:['selbst','pe','fuehr'],
+
+kreativ:['games','design','kurs'],
+games:['kreativ','hybrid','challenge','kurs'],
+design:['kreativ','projekt','prozess'],
+polit:['dem','kont','dialog','polar'],
+religformate:['bt','kreativ','hybrid'],
+hybrid:['games','naviki','kiarbeit'],
+
+challenge:['aiact','alignment','kiethik','kiarbeit','hybrid'],
+naviki:['aiact','alignment','kiethik','kiarbeit','hybrid'],
+aiact:['alignment','kiethik','challenge','naviki','kiarbeit'],
+alignment:['aiact','kiethik','challenge','naviki'],
+kiethik:['aiact','alignment','dem','dialog','challenge','naviki'],
+kiarbeit:['aiact','challenge','naviki','hybrid','prozess'],
+
+dem:['kont','dialog','polar','bne','polit','kiethik'],
+kont:['dem','dialog','polar','polit'],
+dialog:['dem','kont','polar','polit','kiethik'],
+polar:['dem','kont','dialog','polit'],
+bne:['dem','bt'],
+
+projekt:['wirkung','prozess','cases','fin','marketing','design'],
+oe:['prozess','soz','pe','fuehr'],
+prozess:['projekt','oe','soz','kiarbeit'],
+soz:['oe','prozess','fuehr'],
+wirkung:['bm','projekt','marketing'],
+marketing:['bm','wirkung','projekt','aus'],
+
+legal:['wg','vereinsrecht','ust','aus','kurs'],
+vereinsrecht:['legal','fuehr','pers'],
+wg:['legal','aus','bm'],
+ust:['legal','bb','bwl','fin'],
+aus:['legal','wg','bm','marketing'],
+
+finbild:['grund','fam','inkl','gera'],
+bwl:['bb','modelle','cases','fin','ust'],
+modelle:['bb','bwl','cases','projekt','marketing'],
+cases:['bb','bwl','modelle','projekt','fin'],
+fin:['bb','bwl','cases','projekt','ust'],
+
+fuehr:['bf','pers','selbst','pe','oe','soz','vereinsrecht'],
+pers:['bf','fuehr','pe','vereinsrecht'],
+selbst:['bf','fuehr','ment'],
+pe:['fuehr','pers','oe','ment','kurs'],
+
+gera:['bl','inkl','finbild'],
+fam:['finbild','religformate'],
+inkl:['bl','gera','finbild'],
+grund:['bl','finbild'],
+kurs:['bl','kreativ','games','legal','pe']
+};
+
+Object.entries({...links}).forEach(([a,bs])=>bs.forEach(b=>{
+ links[b]=links[b]||[]; if(!links[b].includes(a)) links[b].push(a);
+}));
+
+function clearLines(){svg.innerHTML=''}
+function reset(){
+ clearLines();
+ buttons.forEach(b=>b.classList.remove('selected','related','dimmed'));
+ info.textContent='Alle Bereiche sind sichtbar. Klicke auf einen Begriff oder ein Angebot.';
+}
+function drawLine(a,b){
+ const mr=map.getBoundingClientRect(), ar=a.getBoundingClientRect(), br=b.getBoundingClientRect();
+ const x1=ar.left+ar.width/2-mr.left, y1=ar.top+ar.height/2-mr.top;
+ const x2=br.left+br.width/2-mr.left, y2=br.top+br.height/2-mr.top;
+ const mid=(x1+x2)/2;
+ const p=document.createElementNS('http://www.w3.org/2000/svg','path');
+ p.setAttribute('class','connection');
+ p.setAttribute('d',`M ${x1} ${y1} C ${mid} ${y1}, ${mid} ${y2}, ${x2} ${y2}`);
+ svg.appendChild(p);
+}
+function select(btn){
+ const rel=links[btn.dataset.id]||[];
+ clearLines();
+ buttons.forEach(b=>{
+   b.classList.remove('selected','related','dimmed');
+   if(b===btn)b.classList.add('selected');
+   else if(rel.includes(b.dataset.id))b.classList.add('related');
+   else b.classList.add('dimmed');
+ });
+ rel.forEach(id=>{
+   const other=document.querySelector(`[data-id="${id}"]`);
+   if(other)drawLine(btn,other);
+ });
+ info.innerHTML=`<strong>${btn.textContent}</strong> · ${rel.length} direkte Verbindung${rel.length===1?'':'en'} in dieser Arbeitsfassung.`;
+}
+buttons.forEach(btn=>btn.addEventListener('click',()=>{
+ if(btn.classList.contains('selected')) reset(); else select(btn);
+}));
+document.getElementById('reset').addEventListener('click',reset);
+window.addEventListener('resize',()=>{
+ const selected=document.querySelector('.item.selected');
+ if(selected){clearLines();(links[selected.dataset.id]||[]).forEach(id=>{const o=document.querySelector(`[data-id="${id}"]`);if(o)drawLine(selected,o)})}
+});
+</script>
+</body>
+</html>
